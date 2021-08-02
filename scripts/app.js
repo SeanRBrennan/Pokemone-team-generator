@@ -4,9 +4,11 @@ class App {
     this.displayTypes = [];
     this.randomPokemon = [];
     this.team = [];
+    this.sprites = [];
     this.pokemonTypes = [...document.querySelectorAll('.pokemon-type')]
     this.selectedTypes = document.querySelector('.selected-types')
-    this.card = document.querySelector('#card')
+    this.card = document.querySelector('.cards')
+    this.image = document.querySelector('.image')
     this.generate = document.querySelector('#generate-team')
   }
 
@@ -23,7 +25,8 @@ class App {
 
 // displays our selected types
   displaySelectedTypes() {
-    this.selectedTypes.innerHTML = `Selected:  ${this.displayTypes}`
+    const html = this.displayTypes.map((pokemon,i) => `<span> ${this.displayTypes[i]}</span>`)
+    this.selectedTypes.innerHTML = html
   }
 
 // fetches our pokemon data using our ID from our type
@@ -36,7 +39,6 @@ class App {
     const num = this.generateRandomNum(pokemon.length);
     const team = pokemon[num];
     this.getSprite(team)
-    console.log(team)
     return pokemon;
   }
 
@@ -54,13 +56,24 @@ class App {
     })
   }
 
-  //displays the sprite image for each pokemon on the team
+  //displays the name and sprite image for each pokemon on the team
   async getSprite(team) {
     const url = team.pokemon.url
 
     const response = await fetch(url);
     const data = await response.json();
-    const getSprite = data.sprites.back_default
+    console.log(data)
+    const getSprite = data.sprites.front_shiny
+    this.team.push(data.name)
+    this.sprites.push(getSprite)
+    console.log("sprite", getSprite)
+    const html = this.team.map((pokemon,i) => 
+      `<div>
+        <h3>${this.team[i]}</h3>
+        <img src="${this?.sprites[i]}">
+      </div>
+      `)
+    this.card.innerHTML = html
   }
 
 }
