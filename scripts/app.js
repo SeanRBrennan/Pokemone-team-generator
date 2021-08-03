@@ -10,9 +10,11 @@ class App {
     this.card = document.querySelector('.cards')
     this.image = document.querySelector('.image')
     this.generate = document.querySelector('#generate-team')
+    this.startOver = document.querySelector('#start-over')
 
     this.removeType();
     this.addEventListener();
+    this.reset();
   }
 
 // displays our selected types
@@ -24,11 +26,21 @@ displaySelectedTypes(data = this.displayTypes, id = this.types) {
   this.selectedTypes.innerHTML = html
 }
 
+reset() {
+  this.card.innerHTML = "";
+  this.selectedTypes.innerHTML = "";
+  this.types = [];
+  this.displayTypes = [];
+  this.randomPokemon = [];
+  this.team = [];
+  this.sprites = [];
+}
+
  // Grabs the ID, and Name from the type buttons
  getTypes() {
   this.pokemonTypes.forEach(button => 
     button.addEventListener('click', event => {
-      if(this.types.length <= 6 - 1) {
+      if(this.types.length <= 5) {
         this.displayTypes.push(event.target.innerHTML.toUpperCase())  
         this.types.push(event.target.id)
         this.displaySelectedTypes(this.displayTypes, this.types); 
@@ -51,6 +63,9 @@ removeType(name, id) {
         this.removeType(e.target.name, e.target.id)
       }
     })
+    this.startOver.addEventListener('click', () => {
+      this.reset();
+    });
   }
 
 // fetches our pokemon data using our ID from our type
@@ -86,11 +101,9 @@ removeType(name, id) {
 
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data)
     const getSprite = data.sprites.front_shiny
     this.team.push(data.name.toUpperCase())
     this.sprites.push(getSprite)
-    console.log("sprite", getSprite)
     const html = this.team.map((pokemon,i) => 
       `<div>
         <h3>${this.team[i]}</h3>
