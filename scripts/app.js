@@ -10,23 +10,47 @@ class App {
     this.card = document.querySelector('.cards')
     this.image = document.querySelector('.image')
     this.generate = document.querySelector('#generate-team')
-  }
 
-  // Grabs the ID, and Name from the type buttons
-  getTypes() {
-    this.pokemonTypes.forEach(button => 
-      button.addEventListener('click', event => {
-        this.types.length <= 5 ?  
-        this.displayTypes.push(event.target.innerHTML) &&  
-        this.types.push(event.target.id): this.types
-        this.displaySelectedTypes();
-      }))
+    this.removeType();
+    this.addEventListener();
   }
 
 // displays our selected types
-  displaySelectedTypes() {
-    const html = this.displayTypes.map((pokemon,i) => `<span> ${this.displayTypes[i]}</span>`)
-    this.selectedTypes.innerHTML = html
+displaySelectedTypes(data = this.displayTypes, id = this.types) {
+  const html = data.map((pokemon,i) => 
+    `<span> ${data[i]}</span>
+     <img src="./images/delete.svg" class="remove" role="button" name="${ data[i]}" id="${id[i]}"></button>
+     `)
+  this.selectedTypes.innerHTML = html
+}
+
+ // Grabs the ID, and Name from the type buttons
+ getTypes() {
+  this.pokemonTypes.forEach(button => 
+    button.addEventListener('click', event => {
+      if(this.types.length <= 6 - 1) {
+        this.displayTypes.push(event.target.innerHTML.toUpperCase())  
+        this.types.push(event.target.id)
+        this.displaySelectedTypes(this.displayTypes, this.types); 
+      } 
+    }));    
+}
+
+// removes and updates the ID and Type from this.types, and this.displayTypes
+removeType(name, id) {
+  const updatedTypes = this.displayTypes.filter(type => type !== name)
+  const updatedId = this.types.filter(type => type !== id) 
+  this.displayTypes = updatedTypes
+  this.displaySelectedTypes(updatedTypes)
+  this.types = updatedId
+}
+// attached to our displaySelectedTypes img
+  addEventListener() {
+    this.selectedTypes.addEventListener('click', (e) => {
+      if(e.target.classList.contains('remove')) {
+        this.removeType(e.target.name, e.target.id)
+      }
+    })
   }
 
 // fetches our pokemon data using our ID from our type
@@ -64,7 +88,7 @@ class App {
     const data = await response.json();
     console.log(data)
     const getSprite = data.sprites.front_shiny
-    this.team.push(data.name)
+    this.team.push(data.name.toUpperCase())
     this.sprites.push(getSprite)
     console.log("sprite", getSprite)
     const html = this.team.map((pokemon,i) => 
