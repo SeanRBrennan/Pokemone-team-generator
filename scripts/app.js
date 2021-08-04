@@ -36,6 +36,7 @@ reset() {
   this.randomPokemon = [];
   this.team = [];
   this.sprites = [];
+  this.generate.disabled = false;
 }
 
  // Grabs the ID, and Name from the type buttons
@@ -99,7 +100,8 @@ removeType(name, id) {
     const team = this.generate.addEventListener('click', () => {
       const test = this.types.map(type => this.getPokemonByType(type))
       this.hereIsYourTeam.classList.remove('hidden');
-    }).disabled()
+      this.generate.disabled = true;
+    })
   }
 
   //displays the name and sprite image for each pokemon on the team
