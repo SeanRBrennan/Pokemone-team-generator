@@ -105,7 +105,7 @@ removeType(name, id) {
     this.sprites.push(getSprite)
     const html = this.team.map((pokemon,i) => 
       `<div class="cards">
-        <div class="type-${id[i]}">
+        <div class="card type-${id[i]}">
           <h3>${this.team[i]}</h3>
           <img src="${this?.sprites[i]}">
         </div>
