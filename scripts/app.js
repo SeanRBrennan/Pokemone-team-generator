@@ -6,7 +6,9 @@ class App {
     this.team = [];
     this.sprites = [];
     this.pokemonTypes = [...document.querySelectorAll('.pokemon-type')]
+    this.selected = document.querySelector('.selected')
     this.selectedTypes = document.querySelector('.selected-types')
+    this.hereIsYourTeam = document.querySelector('.team-displayed')
     this.card = document.querySelector('.card-content')
     this.image = document.querySelector('.image')
     this.generate = document.querySelector('#generate-team')
@@ -20,9 +22,9 @@ class App {
 // displays our selected types
 displaySelectedTypes(data = this.displayTypes, id = this.types) {
   const html = data.map((pokemon,i) => 
-    `<span class="types type-${id[i]}"> ${data[i]}
+    `<span class="types tags type-${id[i]}"> ${data[i]}
     <img src="./images/delete.svg" class="remove" role="button" name="${ data[i]}" id="${id[i]}"></span>
-     `)
+     `).join("");
   this.selectedTypes.innerHTML = html
 }
 
@@ -43,6 +45,7 @@ reset() {
       if(this.types.length <= 5) {
         this.displayTypes.push(event.target.innerHTML.toUpperCase())  
         this.types.push(event.target.id)
+        this.selected.classList.remove('hidden')
         this.displaySelectedTypes(this.displayTypes, this.types); 
       } 
     }));    
@@ -55,6 +58,7 @@ removeType(name, id) {
   this.displayTypes = updatedTypes
   this.displaySelectedTypes(updatedTypes)
   this.types = updatedId
+  this.types.length === 0 && this.selected.classList.add('hidden');
 }
 // attached to our displaySelectedTypes img
   addEventListener() {
@@ -65,6 +69,8 @@ removeType(name, id) {
     })
     this.startOver.addEventListener('click', () => {
       this.reset();
+      this.selected.classList.add('hidden');
+      this.hereIsYourTeam.classList.add('hidden');
     });
   }
 
@@ -92,7 +98,8 @@ removeType(name, id) {
   generateTeam() {
     const team = this.generate.addEventListener('click', () => {
       const test = this.types.map(type => this.getPokemonByType(type))
-    })
+      this.hereIsYourTeam.classList.remove('hidden');
+    }).disabled()
   }
 
   //displays the name and sprite image for each pokemon on the team
@@ -107,10 +114,10 @@ removeType(name, id) {
       `<div class="cards">
         <div class="card type-${id[i]}">
           <h3>${this.team[i]}</h3>
-          <img src="${this?.sprites[i]}">
+          <img src="${this.sprites[i] ? this.sprites[i] : 'https://i.pinimg.com/originals/95/d5/cd/95d5cded00f3a3e8a98fb1eed568aa9f.png'}">
         </div>
       </div>
-      `)
+      `).join("");
     this.card.innerHTML = html
   }
 

@@ -28,14 +28,6 @@
   --clr-steel: #B8B8D0;
   --clr-fairy: #F0B6BC;
 
-
-  --fs-h1: 3rem;
-  --fs-h2: 1.5rem;
-  --fs-h3: 1.25;
-  --fs-body: 1rem;
-
-  --lh-p: 2rem;
-
   --bs: 0.25em 0.25em 0.75em rgba(0,0,0,.25),
         0.125em 0.125em 0.25em  rgba(0,0,0,.15);
 }
@@ -51,11 +43,13 @@ body {
   text-align: center;
   padding: 1em;
   margin: .5em;
+  line-height: 1.3;
 }
 
 .main-content {
   background-color: var(--clr-bg-secondary);
   color: var(--clr-font-primary);
+  border: 1px solid var(--clr-font-primary);
   margin-left: 3rem;
   margin-right: 3rem;
   padding-top: 1.5rem;
@@ -72,8 +66,8 @@ body {
   border-radius: 25px;
 }
 
-.button-container-text {
-  font-size: var(--fs-h2); 
+.heading {
+  font-size: 1.1em; 
 }
 
 .card-content {
@@ -90,9 +84,11 @@ body {
 
 .cards {
   display: flex;
+  box-sizing: border-box;
   padding: .5em;
-  margin: 1em;
+  margin: 0;
   font-size: .8em;
+  width: 100%;
   color: #000;
   font-family: var(--ff-primary)
 }
@@ -101,10 +97,17 @@ body {
   padding: .5em;
   border-radius: 15px;
   border: solid 2px #000;
+  width: 100%;
+}
+
+.team-displayed {
+  font-size: 1em;
 }
 
 .last-content {
   background-color: var(--clr-bg-primary);
+  margin-top: 1.5em;
+  margin-bottom: 3em;
 }
 
 .types {
@@ -120,20 +123,53 @@ body {
   color: black;
 }
 
+.tags {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(50% - 1em);
+  margin-right: .5em;
+  margin-left: .5em;
+  margin-bottom: 1em;
+  padding: .4em;
+  line-height: 1.2;
+}
+
 /* buttons */
 
-.buttons {
+button {
+  font-size: .8em;
+  text-align: center;
+  transition: all .3s;
+}
+
+button:hover {
+  background-color: var(--clr-bg-primary);
+  color: white;
+  border: solid 1px white;
+}
+
+.select-types-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   text-align: center;
 }
 
-.pokemon-type {
+.selected-types {
   display: flex;
-  flex-direction: wrap;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0;
+  font-size: 1em;
+  width: 100%;
+}
+
+.pokemon-type {
+  display: inline-block;
   padding: .4em;
   margin: .5em;
+  width: 25%;
 }
 
 .pokemon-type,
@@ -168,7 +204,7 @@ body {
 }
 
 .type-6 {
-  background-color: var(--clr-steel);
+  background-color: var(--clr-rock);
 }
 
 .type-7 {
@@ -228,20 +264,45 @@ body {
 
 #generate-team,
 #start-over {
+  font-weight: bold;
   background-color: var(--clr-psychic);
-  padding: .5em;
+  padding: 1em;
+  min-width: 156px; 
+}
+
+#generate-team:hover,
+#start-over:hover {
+  background-color: #bd345d;
+  border: solid 1px white;
+}
+
+.hidden {
+  display: none;
+}
+
+img[src="https://i.pinimg.com/originals/95/d5/cd/95d5cded00f3a3e8a98fb1eed568aa9f.png"] {
+  max-width: 40% !important;
 }
 
 
 /* media */
-@media only screen and (min-width: 800px) {
+@media only screen and (min-width: 768px) {
+  .main-content {
+    max-width: 768px;
+    margin: auto;
+  }
+
   .header {
     font-size: 2rem;
   }
-}
 
-@media only screen and (max-width: 1000px) {
-  .main-content {
-    max-width: 1000px;
+  .selected-types {
+    max-width: 50%;
+    margin: auto;
+  }
+
+  .cards {
+    width: 50%;
+    padding: .8em;
   }
 }
