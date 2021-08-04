@@ -7,7 +7,7 @@ class App {
     this.sprites = [];
     this.pokemonTypes = [...document.querySelectorAll('.pokemon-type')]
     this.selectedTypes = document.querySelector('.selected-types')
-    this.card = document.querySelector('.cards')
+    this.card = document.querySelector('.card-content')
     this.image = document.querySelector('.image')
     this.generate = document.querySelector('#generate-team')
     this.startOver = document.querySelector('#start-over')
@@ -20,8 +20,8 @@ class App {
 // displays our selected types
 displaySelectedTypes(data = this.displayTypes, id = this.types) {
   const html = data.map((pokemon,i) => 
-    `<span> ${data[i]}</span>
-     <img src="./images/delete.svg" class="remove" role="button" name="${ data[i]}" id="${id[i]}"></button>
+    `<span class="types type-${id[i]}"> ${data[i]}
+    <img src="./images/delete.svg" class="remove" role="button" name="${ data[i]}" id="${id[i]}"></span>
      `)
   this.selectedTypes.innerHTML = html
 }
@@ -77,7 +77,7 @@ removeType(name, id) {
     const pokemon = getPokemon.pokemon;
     const num = this.generateRandomNum(pokemon.length);
     const team = pokemon[num];
-    this.getSprite(team)
+    this.getSprite(team, this.types)
     return pokemon;
   }
 
@@ -96,18 +96,19 @@ removeType(name, id) {
   }
 
   //displays the name and sprite image for each pokemon on the team
-  async getSprite(team) {
+  async getSprite(team, id) {
     const url = team.pokemon.url
-
     const response = await fetch(url);
     const data = await response.json();
     const getSprite = data.sprites.front_shiny
     this.team.push(data.name.toUpperCase())
     this.sprites.push(getSprite)
     const html = this.team.map((pokemon,i) => 
-      `<div>
-        <h3>${this.team[i]}</h3>
-        <img src="${this?.sprites[i]}">
+      `<div class="cards">
+        <div class="type-${id[i]}">
+          <h3>${this.team[i]}</h3>
+          <img src="${this?.sprites[i]}">
+        </div>
       </div>
       `)
     this.card.innerHTML = html
