@@ -160,9 +160,10 @@ button:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 0;
+  margin: auto;
   font-size: 1em;
   width: 100%;
+  max-width: 500px;
 }
 
 .pokemon-type {
@@ -292,19 +293,22 @@ img[src="https://i.pinimg.com/originals/95/d5/cd/95d5cded00f3a3e8a98fb1eed568aa9
   }
 
   .selected-types {
-    max-width: 50%;
-    margin: auto;
+    max-width: 70%;
   }
 
   .cards {
     width: 50%;
     padding: .8em;
   }
+
+  .tags {
+    padding: .6em;
+  }
 }
 
 @media only screen and (min-width: 1000px) {
-  .main-content {
-    max-width: 768px;
-    margin: auto;
-  }
+ .main-content {
+  max-width: 767px;
+  margin: auto;
+ }
 }
