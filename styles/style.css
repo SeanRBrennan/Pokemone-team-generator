@@ -35,7 +35,7 @@ body {
   margin: 0 auto;
   font-size: 16px;
   font-family: var(--ff-primary);
-  background-color: var(--clr-bg-primary);
+  background-color: var(--clr-bg-secondary);
 }
 
 .header {
@@ -47,8 +47,8 @@ body {
 }
 
 .main-content {
-  background-color: var(--clr-bg-secondary);
-  color: var(--clr-font-primary);
+  background-color: rgb(224, 224, 224);
+  color: var(--clr-bg-secondary);
   border: 1px solid var(--clr-font-primary);
   margin-left: 3rem;
   margin-right: 3rem;
@@ -79,7 +79,7 @@ body {
 
 .card-container {
   border-radius: 25px;
-  background-color: var(--clr-bg-secondary);
+  background-color: rgb(224, 224, 224);
 }
 
 .cards {
@@ -105,7 +105,7 @@ body {
 }
 
 .last-content {
-  background-color: var(--clr-bg-primary);
+  background-color: var(--clr-bg-secondary);
   margin-top: 1.5em;
   margin-bottom: 3em;
 }
@@ -144,7 +144,7 @@ button {
 }
 
 button:hover {
-  background-color: var(--clr-bg-primary);
+  background-color: var(--clr-bg-secondary);
   color: white;
   border: solid 1px white;
 }
@@ -265,15 +265,15 @@ button:hover {
 #generate-team,
 #start-over {
   font-weight: bold;
-  background-color: var(--clr-psychic);
+  background-color: var(--clr-font-primary);
   padding: 1em;
   min-width: 156px; 
 }
 
 #generate-team:hover,
 #start-over:hover {
-  background-color: #bd345d;
-  border: solid 1px white;
+  background-color: rgb(224, 224, 224);
+  border: solid 1px black;
 }
 
 .hidden {
@@ -286,10 +286,6 @@ img[src="https://i.pinimg.com/originals/95/d5/cd/95d5cded00f3a3e8a98fb1eed568aa9
 
 /* media */
 @media only screen and (min-width: 768px) {
-  .main-content {
-    max-width: 768px;
-    margin: auto;
-  }
 
   .header {
     font-size: 2rem;
@@ -303,5 +299,12 @@ img[src="https://i.pinimg.com/originals/95/d5/cd/95d5cded00f3a3e8a98fb1eed568aa9
   .cards {
     width: 50%;
     padding: .8em;
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  .main-content {
+    max-width: 768px;
+    margin: auto;
   }
 }
