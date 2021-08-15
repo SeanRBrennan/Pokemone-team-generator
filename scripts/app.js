@@ -50,9 +50,10 @@ class App {
     // displays our selected types
     displaySelectedTypes(data = this.displayTypes, id = this.types) {
       const html = data.map((pokemon, i) =>
-      `<span class="types tags type-${id[i]}"> 
+      `<span class="types tags type-${id[i]}" datatest-id="homepage-selected-${i}">
         ${data[i]}
-        <img src="./images/delete.svg" class="remove" role="button" name="${ data[i]}" id="${id[i]}" data-index=${i}>
+        <img src="./images/delete.svg" class="remove" role="button" name="${ data[i]}" id="${id[i]}" data-index=${i}
+        datatest-id="homepage-remove-type-button="${i}">
       </span>
       `).join("");
       this.selectedTypes.innerHTML = html
@@ -112,8 +113,9 @@ class App {
       const html = this.team.map((pokemon,i) => 
       `<div class="cards">
       <div class="card type-${id[i]}">
-      <h3>${this.team[i]}</h3>
-      <img src="${this.sprites[i] ? this.sprites[i] : 'https://i.pinimg.com/originals/95/d5/cd/95d5cded00f3a3e8a98fb1eed568aa9f.png'}">
+      <h3 datatest-id="homepage-generated-pokemon-name-${i}">${this.team[i]}</h3>
+      <img src="${this.sprites[i] ? this.sprites[i] : 'https://i.pinimg.com/originals/95/d5/cd/95d5cded00f3a3e8a98fb1eed568aa9f.png'}"
+      datatest-id="homepage-generated-pokemon-sprite-${i}">
       </div>
       </div>
       `).join("");
