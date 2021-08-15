@@ -50,7 +50,7 @@ class App {
     // displays our selected types
     displaySelectedTypes(data = this.displayTypes, id = this.types) {
       const html = data.map((pokemon, i) =>
-      `<span class="types tags type-${id[i]}" datatest-id="homepage-selected-${i}">
+      `<span class="types tags type-${id[i]}" datatest-id="homepage-selected-types-${i}">
         ${data[i]}
         <img src="./images/delete.svg" class="remove" role="button" name="${ data[i]}" id="${id[i]}" data-index=${i}
         datatest-id="homepage-remove-type-button="${i}">
