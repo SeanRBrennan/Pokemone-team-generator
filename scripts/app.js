@@ -49,7 +49,7 @@ class App {
     
     // displays our selected types
     displaySelectedTypes(data = this.displayTypes, id = this.types) {
-      const html = data.map((pokemon, i) =>
+      const html = data.flatMap((pokemon, i) =>
       `<span class="types tags type-${id[i]}" datatest-id="homepage-selected-types-tags-${i}">
         ${data[i]}
         <img src="./images/delete.svg" class="remove" role="button" name="${ data[i]}" id="${id[i]}" data-index=${i}
@@ -81,8 +81,8 @@ class App {
       const getPokemon = await response.json();
       const pokemon = getPokemon.pokemon;
       const num = this.generateRandomNum(pokemon.length);
-      const team = pokemon[num];
-      this.getSprite(team, this.types)
+      this.randomPokemon = pokemon[num]
+      this.getSprite(this.randomPokemon, this.types)
       return pokemon;
     }
     
@@ -104,12 +104,20 @@ class App {
     
     //displays the name and sprite image for each pokemon on the team
     async getSprite(team, id) {
+      console.log("team", team)
+      console.log(this.randomPokemon)
+      console.log('id', id)
       const url = team.pokemon.url
       const response = await fetch(url);
       const data = await response.json();
-      const getSprite = data.sprites.front_shiny
+      let shinySprite;
+      if(data.sprites && data.sprites.front_shiny) {
+        shinySprite = data.sprites.front_shiny
+      } else {
+        shinySprite = 'https://i.pinimg.com/originals/95/d5/cd/95d5cded00f3a3e8a98fb1eed568aa9f.png'
+      }
+      this.sprites.push(shinySprite);
       this.team.push(data.name.toUpperCase())
-      this.sprites.push(getSprite)
       const html = this.team.map((pokemon,i) => 
       `<div class="cards">
       <div class="card type-${id[i]}">
