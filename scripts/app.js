@@ -53,7 +53,7 @@ class App {
       `<span class="types tags type-${id[i]}" datatest-id="homepage-selected-types-tags-${i}">
         ${data[i]}
         <img src="./images/delete.svg" class="remove" role="button" name="${ data[i]}" id="${id[i]}" data-index=${i}
-        datatest-id="homepage-remove-type-button=" + data[i]>
+        datatest-id="homepage-remove-type-button=" + ${data[i]}>
       </span>
       `).join("");
       this.selectedTypes.innerHTML = html
