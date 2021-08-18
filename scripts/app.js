@@ -104,9 +104,6 @@ class App {
     
     //displays the name and sprite image for each pokemon on the team
     async getSprite(team, id) {
-      console.log("team", team)
-      console.log(this.randomPokemon)
-      console.log('id', id)
       const url = team.pokemon.url
       const response = await fetch(url);
       const data = await response.json();
