@@ -181,75 +181,93 @@ button:hover {
   color: black;
 }
 
-.type-1 {
+.type-1,
+.type-normal {
   background-color: var(--clr-normal);
 }
 
-.type-2 {
+.type-2,
+.type-fighting {
   background-color: var(--clr-fighting);
 }
 
-.type-3 {
+.type-3,
+.type-flying {
   background-color: var(--clr-flying);
 }
 
-.type-4 {
+.type-4,
+.type-poison {
   background-color: var(--clr-poison);
 }
 
-.type-5 {
+.type-5,
+.type-ground {
   background-color: var(--clr-ground);
 }
 
-.type-6 {
+.type-6,
+.type-rock {
   background-color: var(--clr-rock);
 }
 
-.type-7 {
+.type-7,
+.type-bug {
   background-color: var(--clr-bug);
 }
 
-.type-8 {
+.type-8,
+.type-ghost {
   background-color: var(--clr-ghost);
 }
 
-.type-9 {
+.type-9,
+.type-steel {
   background-color: var(--clr-steel);
 }
 
-.type-10 {
+.type-10,
+.type-fire {
   background-color: var(--clr-fire);
 }
 
-.type-11 {
+.type-11,
+.type-water {
   background-color: var(--clr-water);
 }
 
-.type-12 {
+.type-12,
+.type-grass {
   background-color: var(--clr-grass);
 }
 
-.type-13 {
+.type-13,
+.type-electric {
   background-color: var(--clr-electric);
 }
 
-.type-14 {
+.type-14,
+.type-psychic {
   background-color: var(--clr-psychic);
 }
 
-.type-15 {
+.type-15,
+.type-ice {
   background-color: var(--clr-ice);
 }
 
-.type-16 {
+.type-16,
+.type-dragon {
   background-color: var(--clr-dragon);
 }
 
-.type-17 {
+.type-17,
+.type-dark {
   background-color: var(--clr-dark);
 }
 
-.type-18 {
+.type-18,
+.type-fairy {
   background-color: var(--clr-fairy);
 }
 

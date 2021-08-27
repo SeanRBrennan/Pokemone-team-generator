@@ -5,6 +5,7 @@ class App {
     this.randomPokemon = [];
     this.team = [];
     this.sprites = [];
+    this.generatedDisplayedTypes = [];
     this.pokemonTypes = [...document.querySelectorAll('.pokemon-type')]
     this.selected = document.querySelector('.selected')
     this.selectedTypes = document.querySelector('.selected-types')
@@ -105,9 +106,19 @@ class App {
     //displays the name and sprite image for each pokemon on the team
     async getSprite(team, id) {
       const url = team.pokemon.url
+      console.log(url)
       const response = await fetch(url);
       const data = await response.json();
-      let shinySprite;
+      console.log(url)
+
+      this.generatedDisplayedTypes.push(data.types)
+      console.log(this.generatedDisplayedTypes[0][0].type.name)
+      // this.generatedDisplayedTypes.map(items => {
+      //   items.forEach((type, index) => {
+          
+      // })
+     
+      let shinySprite; 
       if(data.sprites && data.sprites.front_shiny) {
         shinySprite = data.sprites.front_shiny
       } else {
@@ -117,11 +128,12 @@ class App {
       this.team.push(data.name.toUpperCase())
       const html = this.team.map((pokemon,i) => 
       `<div class="cards">
-      <div class="card type-${id[i]}">
-      <h3 datatest-id="homepage-generated-pokemon-name-${i}">${this.team[i]}</h3>
-      <img src="${this.sprites[i] ? this.sprites[i] : 'https://i.pinimg.com/originals/95/d5/cd/95d5cded00f3a3e8a98fb1eed568aa9f.png'}"
-      datatest-id="homepage-generated-pokemon-sprite-${i}">
-      </div>
+        <div class="card type-${this.generatedDisplayedTypes[i][0].type.name}">
+          <h3 datatest-id="homepage-generated-pokemon-name-${i}">${this.team[i]}</h3>
+          <img src="${this.sprites[i] ? this.sprites[i] : 'https://i.pinimg.com/originals/95/d5/cd/95d5cded00f3a3e8a98fb1eed568aa9f.png'}"
+          datatest-id="homepage-generated-pokemon-sprite-${i}"/>
+          <h3 datatest-id="homepage-generatedpokemon-types-${i}">${this.generatedDisplayedTypes[i][0].type.name} <br> ${this.generatedDisplayedTypes[i][1]?.type.name || ''}</h3>
+        </div>
       </div>
       `).join("");
       this.card.innerHTML = html
@@ -135,6 +147,7 @@ class App {
       this.randomPokemon = [];
       this.team = [];
       this.sprites = [];
+      this.generatedDisplayedTypes = [];
       this.generate.disabled = false;
     }
   }
@@ -143,3 +156,4 @@ class App {
   const app = new App();
   app.generateTeam();
   
+  // numberOfReturnedTypes === 2 ? returnedTypes[0].type.name && returnedTypes[1].type.name : returnedTypes[0].type.name
