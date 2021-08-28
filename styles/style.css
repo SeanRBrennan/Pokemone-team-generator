@@ -172,7 +172,8 @@ button:hover {
 
 .pokemon-type,
 #generate-team,
-#start-over {
+#start-over,
+#randomize {
   border: solid 1px #000;
   border-width: 1px;
   border-radius: 5px;
@@ -279,7 +280,8 @@ button:hover {
 }
 
 #generate-team,
-#start-over {
+#start-over,
+#randomize {
   font-weight: bold;
   background-color: var(--clr-font-primary);
   padding: 1em;
@@ -287,7 +289,8 @@ button:hover {
 }
 
 #generate-team:hover,
-#start-over:hover {
+#start-over:hover,
+#randomize:hover {
   background-color: rgb(224, 224, 224);
   border: solid 1px black;
 }

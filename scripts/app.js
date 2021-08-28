@@ -2,26 +2,29 @@ class App {
   constructor() {
     this.types = [];
     this.displayTypes = [];
-    this.randomPokemon = [];
+    this.randomPokemon = {};
     this.team = [];
     this.sprites = [];
     this.generatedDisplayedTypes = [];
-    this.pokemonTypes = [...document.querySelectorAll('.pokemon-type')]
-    this.selected = document.querySelector('.selected')
-    this.selectedTypes = document.querySelector('.selected-types')
-    this.hereIsYourTeam = document.querySelector('.team-displayed')
-    this.card = document.querySelector('.card-content')
-    this.image = document.querySelector('.image')
-    this.generate = document.querySelector('#generate-team')
-    this.startOver = document.querySelector('#start-over')
+    this.returnedPokemonArray = [];
+    this.pokemonToDisplay;
+    this.pokemonTypes = [...document.querySelectorAll('.pokemon-type')];
+    this.selected = document.querySelector('.selected');
+    this.selectedTypes = document.querySelector('.selected-types');
+    this.hereIsYourTeam = document.querySelector('.team-displayed');
+    this.card = document.querySelector('.card-content');
+    this.image = document.querySelector('.image');
+    this.generate = document.querySelector('#generate-team');
+    this.startOver = document.querySelector('#start-over');
 
     this.getTypes();
+    this.displaySelectedTypes();
     this.removeType();
-    this.addEventListener();
+    this.useGenerateTeamButton();
     this.reset();
   }
   
-  // Grabs the ID, and Name from the type buttons
+  // Grabs the ID, and Name from the type buttons, then calls our displaySelectedTypes to display them on the page one by one
   getTypes() {
     this.pokemonTypes.forEach(button => 
       button.addEventListener('click', event => {
@@ -29,27 +32,16 @@ class App {
           this.displayTypes.push(event.target.innerHTML.toUpperCase())  
           this.types.push(event.target.id)
           this.selected.classList.remove('hidden')
-          this.displaySelectedTypes(this.displayTypes, this.types); 
-        } 
+          this.displaySelectedTypes()
+        }
       })
       );    
     }
     
-    // removes and updates the ID and Type from this.types, and this.displayTypes
-    removeType(index) {
-      console.log(index)
-      let updatedTypes = [...this.displayTypes]
-      updatedTypes.splice(index, 1)
-      let updatedId = [...this.types]
-      updatedId.splice(index, 1)
-      this.displayTypes = updatedTypes
-      this.types = updatedId
-      this.types.length === 0 && this.selected.classList.add('hidden');
-      this.displaySelectedTypes()
-    }
-    
     // displays our selected types
-    displaySelectedTypes(data = this.displayTypes, id = this.types) {
+    displaySelectedTypes() {
+      let data = this.displayTypes
+      let id = this.types
       const html = data.flatMap((pokemon, i) =>
       `<span class="types tags type-${id[i]}" datatest-id="homepage-selected-types-tags-${i}">
         ${data[i]}
@@ -60,64 +52,59 @@ class App {
       this.selectedTypes.innerHTML = html
     }
     
-    // attached to our displaySelectedTypes img
-    addEventListener() {
-      this.selectedTypes.addEventListener('click', (e) => {
-        if(e.target.classList.contains('remove')) {
-          this.removeType(e.target.dataset.index)
+    // removes and updates the ID and Type from this.types, and this.displayTypes
+    removeType() {
+      this.selectedTypes.addEventListener('click', (event) => {
+        if(event.target.classList.contains('remove')) {
+          let updatedTypes = [...this.displayTypes]
+          updatedTypes.splice(event.target, 1)
+          let updatedId = [...this.types]
+          updatedId.splice(event, 1)
+          this.displayTypes = updatedTypes
+          this.types = updatedId
+          this.types.length === 0 && this.selected.classList.add('hidden');
+          this.displaySelectedTypes()
         }
       })
-      this.startOver.addEventListener('click', () => {
-        this.reset();
-        this.selected.classList.add('hidden');
-        this.hereIsYourTeam.classList.add('hidden');
-      });
     }
-    
-    // fetches our pokemon data using our ID from our type
-    // creates a random number within the length of the returned array (all pokemon that share the type)
-    // then takes that random number and applies it to the length of it's array to find a single pokemon
-    async getPokemonByType(type) {
-      const response = await fetch(`https://pokeapi.co/api/v2/type/${type}`) 
-      const getPokemon = await response.json();
-      const pokemon = getPokemon.pokemon;
-      const num = this.generateRandomNum(pokemon.length);
-      this.randomPokemon = pokemon[num]
-      this.getSprite(this.randomPokemon, this.types)
-      return pokemon;
-    }
-    
-    // pure function that returns a random number 
-    // the number is used after our fetch call to determine the random pokemon
-    generateRandomNum(max) {
-      let num = Math.floor(Math.random() * max - 1);
-      return num
-    }
-    
-    // this takes our this.types array and runs each number through our fetch call
-    generateTeam() {
-      const team = this.generate.addEventListener('click', () => {
-        const test = this.types.map(type => this.getPokemonByType(type))
+
+    // when generate team is clicked, it will map over this.types to get individual types to run through our API.
+    // Will also show our subtitle of 'Here is our team'
+    // Disabled the generate team button
+    useGenerateTeamButton() {
+      this.generate.addEventListener('click', () => {
+        this.types.map(type =>this.getPokemonArrayByType(type));
         this.hereIsYourTeam.classList.remove('hidden');
         this.generate.disabled = true;
       })
     }
-    
-    //displays the name and sprite image for each pokemon on the team
-    async getSprite(team, id) {
-      const url = team.pokemon.url
-      console.log(url)
+
+    // Takes our individual type from when our generate team button is clicked, then runs our fetch call.
+    // this returns an array of pokemon that exist with that type
+    // we then call our getRandomPokemonToDisplay to get the single pokemon to display on the page
+    async getPokemonArrayByType(individualType) {
+        const response = await fetch(`https://pokeapi.co/api/v2/type/${individualType}`);
+        const data = await response.json();
+        this.returnedPokemonArray = data.pokemon;
+        this.getRandomPokemonToDisplay();
+    }
+
+    // Takes our returnedPokemonArray and runs it through our random number function to get a single Pokemon
+    // Then calls our displayOurPokemon function to display on the page.
+    getRandomPokemonToDisplay() {
+      const num = this.generateRandomNum(this.returnedPokemonArray.length);
+      this.randomPokemon = this.returnedPokemonArray[num]
+      this.getPokemonInfoToDisplay();
+    }
+
+    // Takes our randomPokemon data, uses the URL found within to run another fetch call
+    // This returns a single pokemon object that grabs the name, image, and all type data so it can be displayed
+    async getPokemonInfoToDisplay() {
+      const url = this.randomPokemon.pokemon.url
       const response = await fetch(url);
       const data = await response.json();
-      console.log(url)
-
+      this.pokemonToDisplay = data
       this.generatedDisplayedTypes.push(data.types)
-      console.log(this.generatedDisplayedTypes[0][0].type.name)
-      // this.generatedDisplayedTypes.map(items => {
-      //   items.forEach((type, index) => {
-          
-      // })
-     
       let shinySprite; 
       if(data.sprites && data.sprites.front_shiny) {
         shinySprite = data.sprites.front_shiny
@@ -126,34 +113,50 @@ class App {
       }
       this.sprites.push(shinySprite);
       this.team.push(data.name.toUpperCase())
-      const html = this.team.map((pokemon,i) => 
+      this.displayOurPokemon();
+    }
+    
+    //displays the name and sprite image for each pokemon on the team
+    displayOurPokemon() {
+      const html = this.team.map((pokemon, index) => 
       `<div class="cards">
-        <div class="card type-${this.generatedDisplayedTypes[i][0].type.name}">
-          <h3 datatest-id="homepage-generated-pokemon-name-${i}">${this.team[i]}</h3>
-          <img src="${this.sprites[i] ? this.sprites[i] : 'https://i.pinimg.com/originals/95/d5/cd/95d5cded00f3a3e8a98fb1eed568aa9f.png'}"
-          datatest-id="homepage-generated-pokemon-sprite-${i}"/>
-          <h3 datatest-id="homepage-generatedpokemon-types-${i}">${this.generatedDisplayedTypes[i][0].type.name} <br> ${this.generatedDisplayedTypes[i][1]?.type.name || ''}</h3>
+        <div class="card type-${this.generatedDisplayedTypes[index][0].type.name}">
+          <h3 datatest-id="homepage-generated-pokemon-name-${index}">${this.team[index]}</h3>
+          <img src="${this.sprites[index] ? this.sprites[index] : 'https://i.pinimg.com/originals/95/d5/cd/95d5cded00f3a3e8a98fb1eed568aa9f.png'}"
+          datatest-id="homepage-generated-pokemon-sprite-${index}"/>
+          <h3 datatest-id="homepage-generatedpokemon-types-${index}">${this.generatedDisplayedTypes[index][0].type.name} ${this.generatedDisplayedTypes[index][1]?.type.name || ''}</h3>
         </div>
       </div>
       `).join("");
       this.card.innerHTML = html
     }
+
+    // pure function that returns a random number 
+    // the number is used after our fetch call to determine the random pokemon
+    generateRandomNum(max) {
+      let num = Math.floor(Math.random() * max - 1);
+      return num
+    }
     
+    // resets all of our data to start over. Connected to the start over button
     reset() {
-      this.card.innerHTML = "";
-      this.selectedTypes.innerHTML = "";
-      this.types = [];
-      this.displayTypes = [];
-      this.randomPokemon = [];
-      this.team = [];
-      this.sprites = [];
-      this.generatedDisplayedTypes = [];
-      this.generate.disabled = false;
+      this.startOver.addEventListener('click', () => {
+        this.card.innerHTML = "";
+        this.selectedTypes.innerHTML = "";
+        this.types = [];
+        this.displayTypes = [];
+        this.randomPokemon = [];
+        this.team = [];
+        this.sprites = [];
+        this.generatedDisplayedTypes = [];
+        this.generate.disabled = false;
+        this.selected.classList.add('hidden');
+        this.hereIsYourTeam.classList.add('hidden');
+      });
     }
   }
   
   
   const app = new App();
-  app.generateTeam();
   
   // numberOfReturnedTypes === 2 ? returnedTypes[0].type.name && returnedTypes[1].type.name : returnedTypes[0].type.name
