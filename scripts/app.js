@@ -8,6 +8,7 @@ class App {
     this.generatedDisplayedTypes = [];
     this.returnedPokemonArray = [];
     this.pokemonToDisplay;
+    this.arrayOfNums = [];
     this.pokemonTypes = [...document.querySelectorAll('.pokemon-type')];
     this.selected = document.querySelector('.selected');
     this.selectedTypes = document.querySelector('.selected-types');
@@ -16,11 +17,13 @@ class App {
     this.image = document.querySelector('.image');
     this.generate = document.querySelector('#generate-team');
     this.startOver = document.querySelector('#start-over');
+    this.randomize = document.querySelector('#randomize');
 
     this.getTypes();
     this.displaySelectedTypes();
     this.removeType();
     this.useGenerateTeamButton();
+    this.useRandomizeButton();
     this.reset();
   }
   
@@ -79,6 +82,20 @@ class App {
       })
     }
 
+    useRandomizeButton() {
+      this.randomize.addEventListener('click', () => {
+        if(this.arrayOfNums <= 5) {
+          for(let i = 0; i <= 5; i++) {
+            const num = this.generateRandomNum(this.pokemonTypes.length) + 1;
+            this.arrayOfNums.push(num)
+          }
+        } else {
+          return;
+        }
+        this.arrayOfNums.map(type => this.getPokemonArrayByType(type));
+      })
+    }
+
     // Takes our individual type from when our generate team button is clicked, then runs our fetch call.
     // this returns an array of pokemon that exist with that type
     // we then call our getRandomPokemonToDisplay to get the single pokemon to display on the page
@@ -134,7 +151,7 @@ class App {
     // pure function that returns a random number 
     // the number is used after our fetch call to determine the random pokemon
     generateRandomNum(max) {
-      let num = Math.floor(Math.random() * max - 1);
+      let num = Math.floor(Math.random() * max);
       return num
     }
     
@@ -149,6 +166,7 @@ class App {
         this.team = [];
         this.sprites = [];
         this.generatedDisplayedTypes = [];
+        this.arrayOfNums = [];
         this.generate.disabled = false;
         this.selected.classList.add('hidden');
         this.hereIsYourTeam.classList.add('hidden');
