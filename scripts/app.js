@@ -28,16 +28,16 @@ class App {
   }
   
   // Grabs the ID, and Name from the type buttons, then calls our displaySelectedTypes to display them on the page one by one
-  getTypes() {
-    this.pokemonTypes.forEach(button => 
-      button.addEventListener('click', event => {
-        if(this.types.length <= 5) {
-          this.displayTypes.push(event.target.innerHTML.toUpperCase())  
-          this.types.push(event.target.id)
-          this.selected.classList.remove('hidden')
-          this.displaySelectedTypes()
-        }
-      })
+    getTypes() {
+      this.pokemonTypes.forEach(button => 
+        button.addEventListener('click', event => {
+          if(this.types.length <= 5) {
+            this.displayTypes.push(event.target.innerHTML.toUpperCase())  
+            this.types.push(event.target.id)
+            this.selected.classList.remove('hidden')
+            this.displaySelectedTypes()
+          }
+        })
       );    
     }
     
@@ -45,14 +45,13 @@ class App {
     displaySelectedTypes() {
       let data = this.displayTypes
       let id = this.types
-      const html = data.flatMap((pokemon, i) =>
+      this.selectedTypes.innerHTML = data.flatMap((pokemon, i) =>
       `<span class="types tags type-${id[i]}" datatest-id="homepage-selected-types-tags-${i}">
         ${data[i]}
         <img src="./images/delete.svg" class="remove" role="button" name="${ data[i]}" id="${id[i]}" data-index=${i}
         datatest-id="homepage-remove-type-button-${data[i]}">
       </span>
       `).join("");
-      this.selectedTypes.innerHTML = html
     }
     
     // removes and updates the ID and Type from this.types, and this.displayTypes
@@ -140,17 +139,16 @@ class App {
     
     //displays the name and sprite image for each pokemon on the team
     displayOurPokemon() {
-      const html = this.team.map((pokemon, index) => 
+      this.card.innerHTML  = this.team.map((pokemon, index) => 
       `<div class="cards">
         <div class="card type-${this.generatedDisplayedTypes[index][0].type.name}">
           <h3 datatest-id="homepage-generated-pokemon-name-${index}">${this.team[index]}</h3>
           <img src="${this.sprites[index] ? this.sprites[index] : 'https://i.pinimg.com/originals/95/d5/cd/95d5cded00f3a3e8a98fb1eed568aa9f.png'}"
           datatest-id="homepage-generated-pokemon-sprite-${index}"/>
-          <h3 datatest-id="homepage-generatedpokemon-types-${index}">${this.generatedDisplayedTypes[index][0].type.name} ${this.generatedDisplayedTypes[index][1]?.type.name || ''}</h3>
+          <h3 datatest-id="homepage-generatedpokemon-types-${index}">${this.generatedDisplayedTypes[index][0].type.name} <br> ${this.generatedDisplayedTypes[index][1]?.type.name || ''}</h3>
         </div>
       </div>
       `).join("");
-      this.card.innerHTML = html
     }
 
     // pure function that returns a random number 
@@ -183,5 +181,3 @@ class App {
   
   
   const app = new App();
-  
-  // numberOfReturnedTypes === 2 ? returnedTypes[0].type.name && returnedTypes[1].type.name : returnedTypes[0].type.name

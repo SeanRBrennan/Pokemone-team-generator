@@ -284,6 +284,7 @@ button:hover {
 #randomize {
   font-weight: bold;
   background-color: var(--clr-font-primary);
+  margin-bottom: 1em;
   padding: 1em;
   min-width: 156px; 
 }
