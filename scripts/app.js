@@ -145,7 +145,7 @@ class App {
           <h3 datatest-id="homepage-generated-pokemon-name-${index}">${this.team[index]}</h3>
           <img class="generated-pokemon-sprite" src="${this.sprites[index] ? this.sprites[index] : 'https://i.pinimg.com/originals/95/d5/cd/95d5cded00f3a3e8a98fb1eed568aa9f.png'}"
           datatest-id="homepage-generated-pokemon-sprite-${index}"/>
-          <h3 datatest-id="homepage-generatedpokemon-types-${index}">${this.generatedDisplayedTypes[index][0].type.name} <br> ${this.generatedDisplayedTypes[index][1]?.type.name || ''}</h3>
+          <h3 datatest-id="homepage-generated-pokemon-types-${index}">${this.generatedDisplayedTypes[index][0].type.name} <br> ${this.generatedDisplayedTypes[index][1]?.type.name || ''}</h3>
         </div>
       </div>
       `).join("");
