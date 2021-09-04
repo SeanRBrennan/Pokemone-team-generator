@@ -300,6 +300,11 @@ button:hover {
   display: none;
 }
 
+.generated-pokemon-sprite {
+  width: 8em;
+  height: 8em;
+}
+
 img[src="https://i.pinimg.com/originals/95/d5/cd/95d5cded00f3a3e8a98fb1eed568aa9f.png"] {
   max-width: 40% !important;
 }
