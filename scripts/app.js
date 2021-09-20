@@ -94,6 +94,10 @@ class App {
           return;
         }
         this.arrayOfNums.map(type => this.getPokemonArrayByType(type));
+        this.hereIsYourTeam.classList.remove('hidden');
+        this.selected.classList.add('hidden');
+        this.selectedTypes.classList.add('hidden');
+        this.types = [];
         this.randomize.disabled = true;
         this.generate.disabled = true;
         this.pokemonTypes.forEach(button => button.disabled = true);
@@ -174,6 +178,7 @@ class App {
         this.randomize.disabled = false;
         this.pokemonTypes.forEach(button => button.disabled = false);
         this.selected.classList.add('hidden');
+        this.selectedTypes.classList.remove('hidden');
         this.hereIsYourTeam.classList.add('hidden');
       });
     }
@@ -181,3 +186,5 @@ class App {
   
   
   const app = new App();
+
+  // add a loading spinner
